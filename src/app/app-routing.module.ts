@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
+import { AuthRoutingModule } from './auth/auth.routing';
 import { NotpagefoundComponent } from './pages/notpagefound/notpagefound.component';
 import { PagesRoutingModule } from './pages/pages.routing';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', component: NotpagefoundComponent }
 ];
@@ -14,7 +12,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    PagesRoutingModule
+    PagesRoutingModule,
+    AuthRoutingModule
   ],
   exports: [RouterModule]
 })

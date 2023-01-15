@@ -5,11 +5,10 @@ import { PagesComponent } from './pages.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'dashboard',
         component: PagesComponent,
         children: [
-            { path: 'dashboard', component: DashboardComponent },
-            { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+            { path: '', component: DashboardComponent },
         ]
     },
 ];
