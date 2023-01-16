@@ -9,27 +9,29 @@
           <input type="text" id="searchTerm" class="form-control" formControlName="searchTerm" autocomplete="off" >
         </div>
         <button class="btn btn-primary">Buscar</button>
+        <!-- boton de refresh -->
+        <button class="btn btn-primary" (click)="refresh()">Refresh</button>
       </form>
   
-      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Direccion</th>
-            <th>Email</th>
-            <th>Telefono</th>
-            <th>Fecha</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Nombre completo</th>
+            <th>Cédula</th>
+            <th>Fecha de nacimiento</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of personas">
             <td>{{ data.id }}</td>
-            <td>{{ data.nombre }}</td>
-            <td>{{ data.direccion }}</td>
-            <td>{{ data.correo }}</td>
-            <td>{{ data.telefono }}</td>
-            <td>{{ data.userDateInsert }}</td>
+            <td>{{ data.nombres }}</td>
+            <td>{{ data.apellidos }}</td>
+            <td>{{ data.fullname }}</td>
+            <td>{{ data.cedula }}</td>
+            <td>{{ data.nacimiento }}</td>
           </tr>
         </tbody>
       </table>
