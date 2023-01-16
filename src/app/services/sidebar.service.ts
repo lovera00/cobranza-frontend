@@ -9,8 +9,8 @@ menu: any[] = [
       titulo: 'Principal',
       icono: 'mdi mdi-gauge',
       submenu: [
-        { titulo: 'Dashboard', url: '/dashboard',icono: 'nav-icon fas fa-calendar-alt' },
-        { titulo: 'Personas', url: '/deudores',icono: 'nav-icon fas fa-calendar-alt' },
+        { titulo: 'Dashboard', url: '/dashboard',icono: 'nav-icon fas fa-chart-line' },
+        { titulo: 'Personas', url: '/deudores',icono: 'nav-icon fas fa-users' },
       ]
     },
 ];
