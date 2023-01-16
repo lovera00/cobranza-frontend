@@ -8,9 +8,8 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-  constructor(private sidebarServices:SidebarService) { 
+  constructor(sidebarServices:SidebarService) { 
     this.menuItems = sidebarServices.menu;
-    console.log(this.menuItems);
   }
 
   ngOnInit() {
