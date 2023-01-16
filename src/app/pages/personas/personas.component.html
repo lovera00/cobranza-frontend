@@ -1,1 +1,38 @@
-personas works!
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Listado de personas</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="searchTerm">Buscar</label>
+          <input type="text" id="searchTerm" class="form-control" formControlName="searchTerm" autocomplete="off" >
+        </div>
+        <button class="btn btn-primary">Buscar</button>
+      </form>
+  
+      <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Direccion</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of personas">
+            <td>{{ data.id }}</td>
+            <td>{{ data.nombre }}</td>
+            <td>{{ data.direccion }}</td>
+            <td>{{ data.correo }}</td>
+            <td>{{ data.telefono }}</td>
+            <td>{{ data.userDateInsert }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
