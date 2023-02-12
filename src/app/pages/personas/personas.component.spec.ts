@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 import { PersonasComponent } from './personas.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('PersonasComponent', () => {
   let component: PersonasComponent;
@@ -8,7 +11,8 @@ describe('PersonasComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PersonasComponent ]
+      declarations: [ PersonasComponent ],
+      imports: [HttpClientModule , AppRoutingModule , ReactiveFormsModule]
     })
     .compileComponents();
 
