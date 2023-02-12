@@ -48,7 +48,7 @@ export class PersonasComponent implements OnInit {
     this.loading = true;
     this.personas = [];
     this.personasServices
-      .getPersonas(this.desde, this.hasta)
+      .getAll(this.desde, this.hasta)
       .subscribe((personas: Personas[]) => {
         this.personas = personas;
         this.loading = false;
@@ -60,15 +60,15 @@ export class PersonasComponent implements OnInit {
         this.desde = 0;
       } else {
         this.desde -= 5;
+        this.listarPersonas();
       }
-      this.listarPersonas();
     } else {
       if (this.desde <= 0) {
         this.desde = 0;
       } else {
         this.desde -= 5;
+        this.BuscarPorTermino();
       }
-      this.onSubmit();
     }
   }
   nextPage() {
@@ -76,11 +76,13 @@ export class PersonasComponent implements OnInit {
       this.desde += 5;
       this.listarPersonas();
     } else {
-      this.desde += 5;
-      this.onSubmit();
+      if(this.personas.length >= 5){
+        this.desde += 5;
+        this.BuscarPorTermino();
+      }      
     }
   }
-  onSubmit() {
+  BuscarPorTermino() {
     this.desde = 0;
     this.hasta = 5;
     this.loading = true;
@@ -91,7 +93,7 @@ export class PersonasComponent implements OnInit {
       return;
     }
     this.personasServices
-      .buscarPersona(this.form.value.searchTerm,this.desde,this.hasta)
+      .findPersonaByTerm(this.form.value.searchTerm,this.desde,this.hasta)
       .subscribe((personas: Personas[]) => {
         this.personas = personas;
         this.loading = false;

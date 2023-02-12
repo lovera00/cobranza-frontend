@@ -3,7 +3,7 @@
     <h3 class="card-title">Listado de personas</h3>
   </div>
   <div class="card-body">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="BuscarPorTermino()">
       <div class="form-group">
         <label for="searchTerm">Buscar</label>
         <input

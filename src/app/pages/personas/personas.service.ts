@@ -12,10 +12,10 @@ export class PersonasService {
   
   constructor(private http:HttpClient) { }
   
-  getPersonas(desde:number = 0,hasta:number = 10): Observable<Personas[]>{
+  getAll(desde:number = 0,hasta:number = 10): Observable<Personas[]>{
     return this.http.get<Personas[]>(`${base_url}/deudores?limit=${hasta}&offset=${desde}`);
   }
-  buscarPersona(term: string,desde:number = 0,hasta:number = 10): Observable<Personas[]>{
+  findPersonaByTerm(term: string,desde:number = 0,hasta:number = 10): Observable<Personas[]>{
     return this.http.get<Personas[]>(`${base_url}/deudores/search/${term}?limit=${hasta}&offset=${desde}`);
   }
   agregarPersona(personas:Personas){
