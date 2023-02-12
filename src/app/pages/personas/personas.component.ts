@@ -1,70 +1,143 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Personas } from './persona.interface';
 import { PersonasService } from './personas.service';
-import { DataTablesModule } from 'angular-datatables';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-personas',
   templateUrl: './personas.component.html',
-  styleUrls: ['./personas.component.css']
+  styleUrls: ['./personas.component.css'],
 })
-export class PersonasComponent implements  OnInit, OnDestroy  {
+export class PersonasComponent implements OnInit {
+  personas: Personas[] = [];
   form: FormGroup = this.formBuilder.group({});
-  personas: any[] = [];
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-  
-  constructor(private formBuilder: FormBuilder, private personasServices: PersonasService) { }
- 
+  addForm: FormGroup = this.formBuilder.group({});
+  updateForm: FormGroup = this.formBuilder.group({});
+  loading: boolean = false;
+  mostrarVistaCrear = true;
+  mostrarVistaActualizar = false;
+  desde: number = 0;
+  hasta: number = 5;
+  constructor(
+    private formBuilder: FormBuilder,
+    private personasServices: PersonasService
+  ) {}
+
   ngOnInit() {
+    this.loading = true;
+    this.personas = [];
+    this.listarPersonas();
     this.form = this.formBuilder.group({
-      searchTerm: ['', Validators.required]
+      searchTerm: ['', Validators.required],
     });
-    this.dtOptionsConfig();
-
-    this.personasServices.getPersonas().subscribe((resp: any) => {
-      this.personas = resp;
-      this.dtTrigger.next(null);
+    this.addForm = this.formBuilder.group({
+      nombres: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      cedula: ['', Validators.required],
+      nacimiento: ['', Validators.required],
+    });
+    this.updateForm = this.formBuilder.group({
+      id:['',Validators.required],
+      nombres: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      cedula: ['', Validators.required],
+      nacimiento: ['', Validators.required],
     });
   }
-
-  dtOptionsConfig() {
-    this.dtOptions =  {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      columns: [
-        { data: 'id' },
-        { data: 'nombres' },
-        { data: 'direccion' },
-        { data: 'correo' },
-        { data: 'telefono' },
-        { data: 'userDateInsert' }
-      ]
-    };
-  }
-
-
-  ngOnDestroy(): void {
-    // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
-  }
-
-  onSubmit() {
-    if (this.form.valid) {
-      this.personasServices.buscarPersona(this.form.value.searchTerm).subscribe((resp: any) => {
-        this.personas = resp;
-        this.dtTrigger.unsubscribe();
-        this.dtTrigger.next(null);
+  listarPersonas() {
+    this.loading = true;
+    this.personas = [];
+    this.personasServices
+      .getPersonas(this.desde, this.hasta)
+      .subscribe((personas: Personas[]) => {
+        this.personas = personas;
+        this.loading = false;
       });
+  }
+  previousPage() {
+    if (!this.form.value.searchTerm) {
+      if (this.desde <= 0) {
+        this.desde = 0;
+      } else {
+        this.desde -= 5;
+      }
+      this.listarPersonas();
+    } else {
+      if (this.desde <= 0) {
+        this.desde = 0;
+      } else {
+        this.desde -= 5;
+      }
+      this.onSubmit();
     }
   }
+  nextPage() {
+    if (!this.form.value.searchTerm) {
+      this.desde += 5;
+      this.listarPersonas();
+    } else {
+      this.desde += 5;
+      this.onSubmit();
+    }
+  }
+  onSubmit() {
+    this.desde = 0;
+    this.hasta = 5;
+    this.loading = true;
+    this.personas = [];
+    if (!this.form.value.searchTerm) {
+      this.desde = 0;
+      this.listarPersonas();
+      return;
+    }
+    this.personasServices
+      .buscarPersona(this.form.value.searchTerm,this.desde,this.hasta)
+      .subscribe((personas: Personas[]) => {
+        this.personas = personas;
+        this.loading = false;
+      });
+  }
 
-  refresh() {
-    this.personasServices.getPersonas().subscribe((resp: any) => {
-      this.personas = resp;
-      this.dtTrigger.unsubscribe();
-      this.dtTrigger.next(null);
+  createDeudor(){
+    this.personasServices.agregarPersona(this.addForm.value).subscribe((resp:any)=>{
+      if(resp){
+        alert("creado correctamente")
+        this.addForm.reset();
+        this.mostrarVistaActualizar = false;
+        this.listarPersonas();
+      }
+    });
+  }
+  mostrarVistaActualizarDeudor(persona:Personas){
+    this.mostrarVistaCrear = false;
+    this.mostrarVistaActualizar = true;
+    this.updateForm.setValue({
+      id:persona.id,
+      nombres:persona.nombres,
+      apellidos:persona.apellidos,
+      cedula:persona.cedula,
+      nacimiento:persona.nacimiento
+    });
+  }
+  updateDeudor(){
+    this.personasServices.actualizarPersona(this.updateForm.value).subscribe((resp:any)=>{
+      if(resp){
+        alert("actualizado correctamente")
+        this.updateForm.reset();
+        this.mostrarVistaActualizar = false;
+        this.mostrarVistaCrear = true;
+        this.listarPersonas();
+      }
+    });
+  }
+  eliminarDeudor(persona:Personas){
+    this.personasServices.eliminarPersona(persona.id).subscribe((resp:any)=>{
+      if(resp){
+        alert("eliminado correctamente")
+        this.mostrarVistaActualizar = false;
+        this.mostrarVistaCrear = true;
+        this.listarPersonas();
+      }
     });
   }
 }
