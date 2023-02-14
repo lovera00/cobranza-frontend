@@ -86,4 +86,22 @@ describe('TipogestionesService', () => {
       req.flush(dummyTipogestion);
     })
   })
+
+  describe('create',()=>{
+    it('should return a tipogestion',()=>{
+      const dummyTipogestion: Tipogestiones = {
+        id: 1,
+        description: 'Llamada exitosa',
+        status: Estado.Inactivo
+      };
+
+      service.create(dummyTipogestion).subscribe(tipogestion => {
+        expect(tipogestion).toEqual(dummyTipogestion);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/tipogestiones`);
+      expect(req.request.method).toBe('POST');
+      req.flush(dummyTipogestion);
+    })
+  });
 });

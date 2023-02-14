@@ -17,4 +17,7 @@ export class TipogestionesService {
   getById(id:number): Observable<Tipogestiones>{
     return this.http.get<Tipogestiones>(`${base_url}/tipogestiones/${id}`);
   }
+  create(tipogestion:Tipogestiones): Observable<Tipogestiones>{
+    return this.http.post<Tipogestiones>(`${base_url}/tipogestiones`,tipogestion);
+  }
 }
