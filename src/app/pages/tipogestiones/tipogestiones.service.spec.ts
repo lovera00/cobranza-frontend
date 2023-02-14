@@ -1,16 +1,52 @@
 import { TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TipogestionesService } from './tipogestiones.service';
-
+import { Environment } from 'src/app/enviroments/enviroment';
+import { Estado, Tipogestiones } from './tipoGestiones.interface';
 describe('TipogestionesService', () => {
   let service: TipogestionesService;
+  let httpMock: HttpTestingController;
+  const base_url = Environment.url;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [TipogestionesService]
+    });
     service = TestBed.inject(TipogestionesService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
+  afterAll(()=>{
+    httpMock.verify();
+  })
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  describe('getTipogestiones', () => {
+    it('should return an array of tipogestiones', () => {
+      const dummyTipogestiones: Tipogestiones[] = [
+        {
+          id: 1,
+          description: 'Llamada exitosa',
+          status: Estado.Inactivo
+        },
+        {
+          id: 2,
+          description: 'Llamada fallida',
+          status: Estado.Activo
+        }
+      ];
+
+      service.getAll().subscribe(tipogestiones => {
+        expect(tipogestiones.length).toBe(2);
+        expect(tipogestiones).toEqual(dummyTipogestiones);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/tipogestiones?limit=10&offset=0`);
+      expect(req.request.method).toBe('GET');
+      req.flush(dummyTipogestiones);
+    });
+  })
 });
