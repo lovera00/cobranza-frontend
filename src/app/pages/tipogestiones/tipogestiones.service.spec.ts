@@ -48,6 +48,25 @@ describe('TipogestionesService', () => {
       expect(req.request.method).toBe('GET');
       req.flush(dummyTipogestiones);
     });
+
+    it('should return an array of tipogestiones', () => {
+      const dummyTipogestiones: Tipogestiones[] = [
+        {
+          id: 1,
+          description: 'Llamada exitosa',
+          status: Estado.Inactivo
+        }
+      ];
+
+      service.getAll().subscribe(tipogestiones => {
+        expect(tipogestiones.length).toBe(1);
+        expect(tipogestiones).toEqual(dummyTipogestiones);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/tipogestiones?limit=10&offset=0`);
+      expect(req.request.method).toBe('GET');
+      req.flush(dummyTipogestiones);
+    });
   })
 
   describe('find by id',()=>{
