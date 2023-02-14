@@ -6,11 +6,12 @@ import { PersonasComponent } from './personas/personas.component';
 import { DataTablesModule } from 'angular-datatables';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TipogestionesComponent } from './tipogestiones/tipogestiones.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, PersonasComponent],
+  declarations: [DashboardComponent, PersonasComponent, TipogestionesComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
