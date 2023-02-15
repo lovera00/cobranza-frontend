@@ -1,4 +1,4 @@
 export const Environment = {
     production: false,
-    url: 'http://localhost:3000/api'
+    url: 'https://cobranza-backend.herokuapp.com/api'
 };
