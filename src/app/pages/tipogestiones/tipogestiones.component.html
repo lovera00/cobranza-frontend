@@ -1,1 +1,92 @@
-<p>tipogestiones works!</p>
+<div class="card">
+    <div class="card-header">Listado de Tipos de Gestiones</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripcion</th>
+                                <th>Status</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tipogestion of tipoGestion">
+                                <td>{{tipogestion.id}}</td>
+                                <td>{{tipogestion.description}}</td>
+                                <td>{{tipogestion.status}}</td>
+                                <td>
+                                    <button class="btn btn-primary" (click)="mostrarVistaActualizarTipoGestion(tipogestion)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger" (click)="eliminarTipoGestion(tipogestion)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" *ngIf="!loading">
+                        <div class="col-md-6">
+                          <button class="btn btn-primary" (click)="previousPage()">
+                            Anterior
+                          </button>
+                          <span class="ml-2"></span>
+                          <button class="btn btn-primary" (click)="nextPage()">Siguiente</button>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- otro card pero para el fomulario de crear-->
+<div class="card" *ngIf="mostrarVistaCrear">
+    <div class="card-header">Crear Tipo de Gestion</div>
+    <div class="card-body">
+        <form [formGroup]="addForm" (ngSubmit)="crearTipoGestion()">
+            <div class="form-group">
+                <label for="description">Descripcion</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <!-- only two options-->
+                <select class="form-control" id="status" formControlName="status">
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </form>
+    </div>
+</div>
+
+<!-- otro formulario para editar -->
+<div class="card" *ngIf="mostrarVistaActualizar">
+    <div class="card-header">Actualizar Tipo de Gestion</div>
+    <div class="card-body">
+        <form [formGroup]="updateForm" (ngSubmit)="actualizarTipoGestion()">
+            <div class="form-group">
+                <label for="id">Id</label>
+                <input type="text" class="form-control" id="id" formControlName="id" readonly>
+            </div>
+            <div class="form-group">
+                <label for="description">Descripcion</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <!-- only two options-->
+                <select class="form-control" id="status" formControlName="status">
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </form>
+    </div>
+</div>

@@ -26,12 +26,12 @@ export class TipogestionesComponent implements OnInit {
     this.loading = true;
     this.listarTipoGestiones();
     this.addForm = this.formBuilder.group({
-      descripcion: ['', Validators.required],
-      status: ['',Validators.required]
+      description: ['', Validators.required],
+      status: ['Activo',Validators.required]
     });
     this.updateForm = this.formBuilder.group({
       id:['',Validators.required],
-      descripcion: ['', Validators.required],
+      description: ['', Validators.required],
       status: ['',Validators.required]
     });
   }
@@ -55,5 +55,42 @@ export class TipogestionesComponent implements OnInit {
       }
     );
   }
+
+  crearTipoGestion(){
+    this.tipoGestionesService.create(this.addForm.value).subscribe(
+      (data:Tipogestiones)=>{
+        this.listarTipoGestiones();
+      }
+    );
+  }
+
+  mostrarVistaActualizarTipoGestion(tipoGestion:Tipogestiones){
+    this.mostrarVistaCrear = false;
+    this.mostrarVistaActualizar = true;
+    this.updateForm.setValue({
+      id:tipoGestion.id,
+      description:tipoGestion.description,
+      status:tipoGestion.status
+    });
+  }
+
+  actualizarTipoGestion(){
+    this.tipoGestionesService.update(this.updateForm.value).subscribe(
+      (data:Tipogestiones)=>{
+        this.listarTipoGestiones();
+        this.mostrarVistaActualizar = false;
+        this.mostrarVistaCrear = true;
+      }
+    );
+  }
+
+  eliminarTipoGestion(tipoGestion:Tipogestiones){
+    this.tipoGestionesService.delete(tipoGestion).subscribe(
+      (data:Tipogestiones)=>{
+        this.listarTipoGestiones();
+      }
+    );
+  }
+
 
 }

@@ -44,7 +44,7 @@ describe('TipogestionesService', () => {
         expect(tipogestiones).toEqual(dummyTipogestiones);
       });
 
-      const req = httpMock.expectOne(`${base_url}/tipogestiones?limit=10&offset=0`);
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion?limit=10&offset=0`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyTipogestiones);
     });
@@ -63,7 +63,7 @@ describe('TipogestionesService', () => {
         expect(tipogestiones).toEqual(dummyTipogestiones);
       });
 
-      const req = httpMock.expectOne(`${base_url}/tipogestiones?limit=10&offset=0`);
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion?limit=10&offset=0`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyTipogestiones);
     });
@@ -81,7 +81,7 @@ describe('TipogestionesService', () => {
         expect(tipogestion).toEqual(dummyTipogestion);
       });
 
-      const req = httpMock.expectOne(`${base_url}/tipogestiones/1`);
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion/1`);
       expect(req.request.method).toBe('GET');
       req.flush(dummyTipogestion);
     })
@@ -99,9 +99,45 @@ describe('TipogestionesService', () => {
         expect(tipogestion).toEqual(dummyTipogestion);
       });
 
-      const req = httpMock.expectOne(`${base_url}/tipogestiones`);
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion`);
       expect(req.request.method).toBe('POST');
       req.flush(dummyTipogestion);
     })
   });
+
+  describe('update',()=>{
+    it('should return a tipogestion',()=>{
+      const dummyTipogestion: Tipogestiones = {
+        id: 1,
+        description: 'Llamada exitosa',
+        status: Estado.Inactivo
+      };
+
+      service.update(dummyTipogestion).subscribe(tipogestion => {
+        expect(tipogestion).toEqual(dummyTipogestion);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion/1`);
+      expect(req.request.method).toBe('PATCH');
+      req.flush(dummyTipogestion);
+    })
+  })
+
+  describe('delete',()=>{
+    it('should return a tipogestion',()=>{
+      const dummyTipogestion: Tipogestiones = {
+        id: 1,
+        description: 'Llamada exitosa',
+        status: Estado.Inactivo
+      };
+
+      service.delete(dummyTipogestion).subscribe(tipogestion => {
+        expect(tipogestion).toEqual(dummyTipogestion);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/tipo-gestion/1`);
+      expect(req.request.method).toBe('DELETE');
+      req.flush(dummyTipogestion);
+    })
+  })
 });

@@ -99,5 +99,69 @@ describe('TipogestionesComponent', () => {
     expect(component.tipoGestion).toEqual(tipoGestiones);
   })
 
+  it('should call "create" when "crearTipoGestion" is called',()=>{
+    const tipoGestion:Tipogestiones = {
+      id:1,
+      description:'Gestion 1',
+      status:Estado.Activo
+    }
+    spyOn(service, 'create').and.returnValue(
+      new Observable<Tipogestiones>(subscriber => {
+        subscriber.next(tipoGestion);
+      })
+    );
+    component.crearTipoGestion();
+    expect(service.create).toHaveBeenCalled();
+  })
+
+  it('should call "update" when "actualizarTipoGestion" is called',()=>{
+    const tipoGestion:Tipogestiones = {
+      id:1,
+      description:'Gestion 1',
+      status:Estado.Activo
+    }
+    spyOn(service, 'update').and.returnValue(
+      new Observable<Tipogestiones>(subscriber => {
+        subscriber.next(tipoGestion);
+      })
+    );
+    component.actualizarTipoGestion();
+    expect(service.update).toHaveBeenCalled();
+  })
+
+  it('should call "delete" when "eliminarTipoGestion" is called',()=>{
+    const tipoGestion:Tipogestiones = {
+      id:1,
+      description:'Gestion 1',
+      status:Estado.Activo
+    }
+    spyOn(service, 'delete').and.returnValue(
+      new Observable<Tipogestiones>(subscriber => {
+        subscriber.next(tipoGestion);
+      })
+    );
+    component.eliminarTipoGestion(tipoGestion);
+    expect(service.delete).toHaveBeenCalled();
+  })
+
+  it('should set tipoGestion and loading variables correctly when getAll() method of TipoGestionesService returns data', () => {
+    const tipoGestion:Tipogestiones = {
+      id:1,
+      description:'Gestion 1',
+      status:Estado.Activo
+    }
+
+    component.mostrarVistaCrear = true;
+    component.mostrarVistaActualizar = false;
+
+    component.mostrarVistaActualizarTipoGestion(tipoGestion);
+
+    expect(component.mostrarVistaCrear).toBe(false);
+    expect(component.mostrarVistaActualizar).toBe(true);
+    expect(component.updateForm.value.id).toBe(tipoGestion.id);
+    expect(component.updateForm.value.descripcion).toBe(tipoGestion.description);
+    expect(component.updateForm.value.status).toBe(tipoGestion.status);
+});
+
   
 });
