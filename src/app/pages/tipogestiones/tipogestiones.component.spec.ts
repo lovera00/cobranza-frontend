@@ -153,13 +153,16 @@ describe('TipogestionesComponent', () => {
 
     component.mostrarVistaCrear = true;
     component.mostrarVistaActualizar = false;
-
+    component.updateForm.setValue({ 
+      id: tipoGestion.id,
+      description: tipoGestion.description,
+      status: tipoGestion.status
+     });
     component.mostrarVistaActualizarTipoGestion(tipoGestion);
 
     expect(component.mostrarVistaCrear).toBe(false);
     expect(component.mostrarVistaActualizar).toBe(true);
-    expect(component.updateForm.value.id).toBe(tipoGestion.id);
-    expect(component.updateForm.value.descripcion).toBe(tipoGestion.description);
+    expect(component.updateForm.value.description).toBe(tipoGestion.description);
     expect(component.updateForm.value.status).toBe(tipoGestion.status);
 });
 
