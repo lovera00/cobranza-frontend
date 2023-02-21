@@ -155,7 +155,7 @@ describe('CuentasService', () => {
       });
 
       const req = httpMock.expectOne(`${base_url}/cuentas/1`);
-      expect(req.request.method).toBe('PUT');
+      expect(req.request.method).toBe('PATCH');
       req.flush(dummyCuentas);
     });
   })
@@ -185,6 +185,54 @@ describe('CuentasService', () => {
 
       const req = httpMock.expectOne(`${base_url}/cuentas/1`);
       expect(req.request.method).toBe('DELETE');
+      req.flush(dummyCuentas);
+    });
+  })
+
+  describe('search by term',()=>{
+    it('should return an array of cuentas', () => {
+      const dummyCuentas:Cuentas[] = [
+        {
+          id:1,
+          acreedor:'',
+          concepto:'',
+          ddg:1,
+          ddm:1,
+          deudor:1,
+          fechaProximaGestion:new Date,
+          fechaUltimoPago:new Date,
+          gastosCobranza:1,
+          interesMoratorio:1,
+          interesPunitorio:1,
+          saldoCapital:1,
+          tipoGestion:1,
+          ultimoContacto:new Date
+        },
+        {
+          id:2,
+          acreedor:'',
+          concepto:'',
+          ddg:1,
+          ddm:1,
+          deudor:1,
+          fechaProximaGestion:new Date,
+          fechaUltimoPago:new Date,
+          gastosCobranza:1,
+          interesMoratorio:1,
+          interesPunitorio:1,
+          saldoCapital:1,
+          tipoGestion:1,
+          ultimoContacto:new Date
+        }
+      ];
+
+      service.search('test').subscribe(cuentasResp => {
+        expect(cuentasResp.length).toBe(2);
+        expect(cuentasResp).toEqual(dummyCuentas);
+      });
+
+      const req = httpMock.expectOne(`${base_url}/cuentas/buscar/test?limit=10&offset=0`);
+      expect(req.request.method).toBe('GET');
       req.flush(dummyCuentas);
     });
   })

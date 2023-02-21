@@ -18,6 +18,9 @@ export class CuentasService {
   getById(id:number){
     return this.http.get<Cuentas>(`${base_url}/cuentas/${id}`);
   }
+  search(termino:string,desde:number = 0,hasta:number = 10){
+    return this.http.get<Cuentas[]>(`${base_url}/cuentas/buscar/${termino}?limit=${hasta}&offset=${desde}`);
+  }
   create(cuenta:Cuentas){
     return this.http.post<Cuentas>(`${base_url}/cuentas`,cuenta);
   }

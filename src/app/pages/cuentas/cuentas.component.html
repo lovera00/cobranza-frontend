@@ -1,1 +1,206 @@
-<p>cuentas works!</p>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Listado de cuentas</h3>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="buscarPorTermino()">
+      <div class="form-group">
+        <label for="searchTerm">Buscar</label>
+        <input
+          type="text"
+          id="searchTerm"
+          class="form-control"
+          formControlName="searchTerm"
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn btn-primary">Buscar</button>
+    </form>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Acreedor</th>
+            <th>Concepto</th>
+            <th>DDM</th>
+            <th>DDG</th>
+            <th>Saldo</th>
+            <th>I.Puni</th>
+            <th>I.Mora</th>
+            <th>G Cobran.</th>
+            <th>Fch. ult. Pago</th>
+            <th>Ult. Contacto</th>
+            <th>Fch. next. Gestion</th>
+            <th>Tipo Gestion</th>
+            <th>Deudor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="6" class="text-center">
+              <i class="fa fa-spinner fa-spin"></i>
+            </td>
+          </tr>
+          <tr *ngIf="!loading">
+            <td colspan="6" class="text-center" *ngIf="cuentas.length === 0">
+              No hay registros
+            </td>
+          </tr>
+          <tr *ngFor="let cuenta of cuentas">
+            <td>{{ cuenta.id }}</td>
+            <td>{{ cuenta.acreedor }}</td>
+            <td>{{ cuenta.concepto }}</td>
+            <td>{{ cuenta.ddm }}</td>
+            <td>{{ cuenta.ddg }}</td>
+            <td>{{ cuenta.saldoCapital }}</td>
+            <td>{{ cuenta.interesPunitorio }}</td>
+            <td>{{ cuenta.interesMoratorio }}</td>
+            <td>{{ cuenta.gastosCobranza }}</td>
+            <td>{{ cuenta.fechaUltimoPago  | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ cuenta.ultimoContacto | date: 'yyyy-MM-dd' }}</td>
+            <td>{{ cuenta.fechaProximaGestion | date: 'yyyy-MM-dd'}}</td>
+            <td>{{ cuenta.tipoGestion }}</td>
+            <td>{{ cuenta.deudor }}</td>
+            <td>
+              <!-- editar editarcuenta -->
+              <button
+                class="btn btn-primary"
+                (click)="mostrarFormularioActualizar(cuenta)"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+              <span class="ml-2"></span>
+              <!-- eliminar eliminarcuenta -->
+              <button class="btn btn-danger" (click)="eliminarCuenta(cuenta)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- agregar boton siguiente anterior -->
+    <div class="row" *ngIf="!loading">
+      <div class="col-md-6">
+        <button class="btn btn-primary" (click)="previousPage()">
+          Anterior
+        </button>
+        <span class="ml-2"></span>
+        <button class="btn btn-primary" (click)="nextPage()">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- otro card pero para el fomulario de crear-->
+<div class="card" *ngIf="mostrarVistaCrear">
+  <div class="card-header">Crear cuenta</div>
+  <div class="card-body">
+    <form [formGroup]="addForm" (ngSubmit)="crearCuenta()">
+        <div class="form-group">
+            <label for="acreedor">Acreedor</label>
+            <input type="text" id="acreedor" class="form-control" formControlName="acreedor" />
+        </div>
+        <div class="form-group">
+            <label for="concepto">Concepto</label>
+            <input type="text" id="concepto" class="form-control" formControlName="concepto" />
+        </div>
+        <div class="form-group">
+            <label for="ddm">DDM</label>
+            <input type="number" id="ddm" class="form-control" formControlName="ddm" />
+        </div>
+        <div class="form-group">
+            <label for="ddg">DDG</label>
+            <input type="number" id="ddg" class="form-control" formControlName="ddg" />
+        </div>
+        <div class="form-group">
+            <label for="saldoCapital">Saldo Capital</label>
+            <input type="number" id="saldoCapital" class="form-control" formControlName="saldoCapital" />
+        </div>
+        <div class="form-group">
+            <label for="interesPunitorio">Interes Punitorio</label>
+            <input type="number" id="interesPunitorio" class="form-control" formControlName="interesPunitorio" />
+        </div>
+        <div class="form-group">
+            <label for="interesMoratorio">Interes Moratorio</label>
+            <input type="number" id="interesMoratorio" class="form-control" formControlName="interesMoratorio" />
+        </div>
+        <div class="form-group">
+            <label for="gastosCobranza">Gastos Cobranza</label>
+            <input type="number" id="gastosCobranza" class="form-control" formControlName="gastosCobranza" />
+        </div>
+        <div class="form-group">
+            <label for="fechaUltimoPago">Fecha Ultimo Pago</label>
+            <input type="date" id="fechaUltimoPago" class="form-control" formControlName="fechaUltimoPago" />
+        </div>
+        <div class="form-group">
+            <label for="ultimoContacto">Ultimo Contacto</label>
+            <input type="date" id="ultimoContacto" class="form-control" formControlName="ultimoContacto" />
+        </div>
+        <div class="form-group">
+            <label for="fechaProximaGestion">Fecha Proxima Gestion</label>
+            <input type="date" id="fechaProximaGestion" class="form-control" formControlName="fechaProximaGestion" />
+        </div>
+        <div class="form-group">
+            <label for="tipoGestion">Tipo Gestion</label>
+            <input type="text" id="tipoGestion" class="form-control" formControlName="tipoGestion" />
+        </div>
+        <div class="form-group">
+            <label for="deudor">Deudor</label>
+            <input type="number" id="deudor" class="form-control" formControlName="deudor" />
+        </div>
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </form>
+  </div>
+</div>
+<!-- otro formulario para edita -->
+<div class="card" *ngIf="mostrarVistaActualizar">
+  <div class="card-header">Modificar cuenta</div>
+  <div class="card-body">
+    <form [formGroup]="updateForm" (ngSubmit)="actualizarCuenta()">
+      <div class="form-group">
+        <label for="id">ID</label>
+        <input type="text" id="id" class="form-control" formControlName="id" />
+      </div>
+      <div class="form-group">
+        <label for="nombres">Nombres</label>
+        <input
+          type="text"
+          id="nombres"
+          class="form-control"
+          formControlName="nombres"
+        />
+      </div>
+      <div class="form-group">
+        <label for="apellidos">Apellidos</label>
+        <input
+          type="text"
+          id="apellidos"
+          class="form-control"
+          formControlName="apellidos"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cedula">Cédula</label>
+        <input
+          type="text"
+          id="cedula"
+          class="form-control"
+          formControlName="cedula"
+        />
+      </div>
+      <div class="form-group">
+        <label for="nacimiento">Fecha de Nacimiento</label>
+        <input
+          type="text"
+          id="nacimiento"
+          class="form-control"
+          formControlName="nacimiento"
+        />
+      </div>
+      <button class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
+</div>
