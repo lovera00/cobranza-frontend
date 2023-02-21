@@ -155,52 +155,64 @@
     </form>
   </div>
 </div>
-<!-- otro formulario para edita -->
-<div class="card" *ngIf="mostrarVistaActualizar">
-  <div class="card-header">Modificar cuenta</div>
-  <div class="card-body">
-    <form [formGroup]="updateForm" (ngSubmit)="actualizarCuenta()">
-      <div class="form-group">
-        <label for="id">ID</label>
-        <input type="text" id="id" class="form-control" formControlName="id" />
-      </div>
-      <div class="form-group">
-        <label for="nombres">Nombres</label>
-        <input
-          type="text"
-          id="nombres"
-          class="form-control"
-          formControlName="nombres"
-        />
-      </div>
-      <div class="form-group">
-        <label for="apellidos">Apellidos</label>
-        <input
-          type="text"
-          id="apellidos"
-          class="form-control"
-          formControlName="apellidos"
-        />
-      </div>
-      <div class="form-group">
-        <label for="cedula">Cédula</label>
-        <input
-          type="text"
-          id="cedula"
-          class="form-control"
-          formControlName="cedula"
-        />
-      </div>
-      <div class="form-group">
-        <label for="nacimiento">Fecha de Nacimiento</label>
-        <input
-          type="text"
-          id="nacimiento"
-          class="form-control"
-          formControlName="nacimiento"
-        />
-      </div>
-      <button class="btn btn-primary">Guardar</button>
-    </form>
-  </div>
+<!-- otro card pero para el fomulario de actualizar-->
+<div class="card">
+    <div class="card-header">Actualizar cuenta</div>
+    <div class="card-body">
+        <form [formGroup]="updateForm" (ngSubmit)="actualizarCuenta()">
+            <div class="form-group">
+                <label for="id">Id</label>
+                <input type="text" id="id" class="form-control" formControlName="id" readonly />
+            </div>
+            <div class="form-group">
+                <label for="acreedor">Acreedor</label>
+                <input type="text" id="acreedor" class="form-control" formControlName="acreedor" />
+            </div>
+            <div class="form-group">
+                <label for="concepto">Concepto</label>
+                <input type="text" id="concepto" class="form-control" formControlName="concepto" />
+            </div>
+            <div class="form-group">
+                <label for="ddm">DDM</label>
+                <input type="number" id="ddm" class="form-control" formControlName="ddm" />
+            </div>
+            <div class="form-group">
+                <label for="ddg">DDG</label>
+                <input type="number" id="ddg" class="form-control" formControlName="ddg" />
+            </div>
+            <div class="form-group">
+                <label for="saldoCapital">Saldo Capital</label>
+                <input type="number" id="saldoCapital" class="form-control" formControlName="saldoCapital" />
+            </div>
+            <div class="form-group">
+                <label for="interesPunitorio">Interes Punitorio</label>
+                <input type="number" id="interesPunitorio" class="form-control" formControlName="interesPunitorio" />
+            </div>
+            <div class="form-group">
+                <label for="interesMoratorio">Interes Moratorio</label>
+                <input type="number" id="interesMoratorio" class="form-control" formControlName="interesMoratorio" />
+            </div>
+            <div class="form-group">
+                <label for="gastosCobranza">Gastos Cobranza</label>
+                <input type="number" id="gastosCobranza" class="form-control" formControlName="gastosCobranza" />
+            </div>
+            <div class="form-group">
+                <label for="fechaUltimoPago">Fecha Ultimo Pago</label>
+                <input type="date" id="fechaUltimoPago" class="form-control" formControlName="fechaUltimoPago" />
+            </div>
+            <div class="form-group">
+                <label for="ultimoContacto">Ultimo Contacto</label>
+                <input type="date" id="ultimoContacto" class="form-control" formControlName="ultimoContacto" />
+            </div>
+            <div class="form-group">
+                <label for="fechaProximaGestion">Fecha Proxima Gestion</label>
+                <input type="date" id="fechaProximaGestion" class="form-control" formControlName="fechaProximaGestion" />
+            </div>
+            <div class="form-group">
+                <label for="tipoGestion">Tipo Gestion</label>
+                <input type="text" id="tipoGestion" class="form-control" formControlName="tipoGestion" />
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
 </div>

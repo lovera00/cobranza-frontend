@@ -58,7 +58,6 @@ export class CuentasComponent implements OnInit {
       ultimoContacto: [null, Validators.required],
       fechaProximaGestion: [null, Validators.required],
       tipoGestion: ['', Validators.required],
-      deudor: [null, Validators.required],
     });
   }
 
@@ -139,6 +138,8 @@ export class CuentasComponent implements OnInit {
   }
 
   mostrarFormularioActualizar(cuenta: Cuentas) {
+    console.log(cuenta);
+    
     this.mostrarVistaCrear = false;
     this.mostrarVistaActualizar = true;
     this.updateForm.setValue({
@@ -155,7 +156,6 @@ export class CuentasComponent implements OnInit {
       ultimoContacto: cuenta.ultimoContacto,
       fechaProximaGestion: cuenta.fechaProximaGestion,
       tipoGestion: cuenta.tipoGestion,
-      deudor: cuenta.deudor,
     });
   }
 }
